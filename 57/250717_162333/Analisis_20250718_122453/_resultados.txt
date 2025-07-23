@@ -1,0 +1,17 @@
+# Configuracion:
+# Concentracion g/m^3_=_9700.0
+# C_Vs_to_Am_M_A/Vsm_=_25649819763.59163
+# pendiente_HvsI_1/m_=_3716.3
+# ordenada_HvsI_A/m_=_1297.0
+# frecuencia_ref_Hz_=_135552.864968234
+# 
+Resultados:
+# tau_ns_=_nan+/-nan
+# dphi_rad_=_nan+/-nan
+# SAR_W/g_=_nan+/-nan
+# Hc_kA/m_=_nan+/-nan
+# Mr_A/m_=_nan+/-nan
+# Magnetizacion_max_emu/g_=_nan+/-nan
+# Suceptibilidad_a_M=0_=_nan+/-nan
+
+Nombre_archivo	Time_m_(s)	Temperatura_(ºC)	Mr_(A/m)	Hc_(kA/m)	Campo_max_(A/m)	Mag_max_(A/m)	f0	mag0	dphi0	SAR_(W/g)	Tau_(ns)	N	xi_M_0
