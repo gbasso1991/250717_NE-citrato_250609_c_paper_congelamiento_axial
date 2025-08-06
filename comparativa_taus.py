@@ -311,8 +311,8 @@ c.set_xlabel('Temperature (°C)')
 for i in (a,b,c):
     i.grid()
     #i.legend()
-
-plt.xlim(-21, 21)
+plt.ylim(60, 160)
+plt.xlim(-20, 20)
 plt.savefig('comparativa_taus_referato.png', dpi=300)
 plt.show()
 
