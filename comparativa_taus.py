@@ -8,6 +8,7 @@ import chardet
 import re
 import os
 from uncertainties import ufloat
+#%% plot_ciclos_promedio
 def plot_ciclos_promedio(directorio):
     # Buscar recursivamente todos los archivos que coincidan con el patrón
     archivos = glob(os.path.join(directorio, '**', '*ciclo_promedio*.txt'), recursive=True)
@@ -56,7 +57,7 @@ def plot_ciclos_promedio(directorio):
     plt.legend()  # Leyenda fuera del gráfico
     plt.savefig('comparativa_ciclos_'+os.path.split(directorio)[-1]+'.png',dpi=300)
     plt.show()
-
+#%% lector_resultados
 def lector_resultados(path):
     '''
     Para levantar archivos de resultados con columnas :
@@ -119,8 +120,7 @@ def lector_resultados(path):
 
     N=pd.Series(data['N'][:]).to_numpy(dtype=int)
     return meta, files, time,temperatura,Mr, Hc, campo_max, mag_max, xi_M_0, frecuencia_fund, magnitud_fund , dphi_fem, SAR, tau, N
-#%%
-#LECTOR CICLOS
+#%% Lector_ciclos
 def lector_ciclos(filepath):
     with open(filepath, "r") as f:
         lines = f.readlines()[:8]
@@ -148,13 +148,13 @@ def lector_ciclos(filepath):
     return t,H_Vs,M_Vs,H_kAm,M_Am,metadata
 
 #%% Rsultados 250716_NE-citrato_250609_c_paper_descongelamiento
-res_csC=glob(os.path.join('../250716_NE-citrato_250609_c_paper_descongelamiento','cong_sin_campo', '**', '*resultados.txt'),recursive=True)
+res_csC=glob(os.path.join('../250716_NE@citrato_250609_c_paper_descongelamiento','cong_sin_campo', '**', '*resultados.txt'),recursive=True)
 res_csC.sort()
 meta_csC_0, _,time_csC_0,T_csC_0,_,_,_,_,_,_,_,_,SAR_csC_0,tau_csC_0,_=lector_resultados(res_csC[0])
 meta_csC_1, _,time_csC_1,T_csC_1,_,_,_,_,_,_,_,_,SAR_csC_1,tau_csC_1,_=lector_resultados(res_csC[1])
 meta_csC_2, _,time_csC_2,T_csC_2,_,_,_,_,_,_,_,_,SAR_csC_2,tau_csC_2,_=lector_resultados(res_csC[2])
 
-res_cCT=glob(os.path.join('../250716_NE-citrato_250609_c_paper_descongelamiento','cong_con_campo', '**', '*resultados.txt'),recursive=True)
+res_cCT=glob(os.path.join('../250716_NE@citrato_250609_c_paper_descongelamiento','cong_con_campo', '**', '*resultados.txt'),recursive=True)
 res_cCT.sort()
 meta_cCT_0, _,time_cCT_0,T_cCT_0,_,_,_,_,_,_,_,_,SAR_cCT_0,tau_cCT_0,_=lector_resultados(res_cCT[0])
 meta_cCT_1, _,time_cCT_1,T_cCT_1,_,_,_,_,_,_,_,_,SAR_cCT_1,tau_cCT_1,_=lector_resultados(res_cCT[1])
@@ -166,7 +166,7 @@ meta_cCA_0, _,time_cCA_0,T_cCA_0,_,_,_,_,_,_,_,_,SAR_cCA_0,tau_cCA_0,_=lector_re
 meta_cCA_1, _,time_cCA_1,T_cCA_1,_,_,_,_,_,_,_,_,SAR_cCA_1,tau_cCA_1,_=lector_resultados(res_cCA[1])
 meta_cCA_2, _,time_cCA_2,T_cCA_2,_,_,_,_,_,_,_,_,SAR_cCA_2,tau_cCA_2,_=lector_resultados(res_cCA[2])
 
-# %%
+# %% PLOT TAUS ALL
 fig, (a,b,c)=plt.subplots(nrows=3,constrained_layout=True, sharex=True, sharey=True,figsize=(9,7))
 
 a.set_title('cong s/ campo',loc='left')
@@ -192,7 +192,7 @@ for ax in (a,b,c):
 c.set_xlabel('Temperatura (°C)')
 plt.savefig('comparativa_taus.png',dpi=300)
 #%%
-#%% Promedio los tau por temperatura
+#%% promediar_tau
 def promediar_tau(T_list, tau_list, nombre_conjunto, temp_min=-20, temp_max=20, intervalo_temp=1):
     """
     Parámetros:
@@ -265,7 +265,7 @@ def promediar_tau(T_list, tau_list, nombre_conjunto, temp_min=-20, temp_max=20, 
         print(f"{temp:5.2f} to {temp + intervalo_temp:5.2f} °C | {counts[i]:4d} | {prom_tau[i]:15.2e} | {err_tau[i]:12.2e}")
     
     return T_intervalos, prom_tau, err_tau, err_temperatura
-#%% Ejemplo de uso
+#%% Ejecucion
 T_csC, prom_tau_csC, err_tau_csC, err_temp_csC = promediar_tau([ T_csC_1, T_csC_2], [tau_csC_1, tau_csC_2], "csC")
 T_cCT, prom_tau_cCT, err_tau_cCT, err_temp_cCT = promediar_tau([T_cCT_0, T_cCT_1, T_cCT_2], [tau_cCT_0, tau_cCT_1, tau_cCT_2], "cCT")
 T_cCA, prom_tau_cCA, err_tau_cCA, err_temp_cCA = promediar_tau([T_cCA_0, T_cCA_1, T_cCA_2], [tau_cCA_0, tau_cCA_1, tau_cCA_2], "cCA")
@@ -287,9 +287,10 @@ ax.legend()
 plt.savefig('comparativa_promedio_taus.png',dpi=300)
 plt.show()
 
-#%% Gráficos de temperatura vs tiempo con tiempo ajustado
+#%% PLOT temperatura vs tiempo 
 from matplotlib.cm import viridis
 from matplotlib.colors import Normalize
+from matplotlib.ticker import MultipleLocator, NullFormatter
 
 # Configurar el normalizador de colores para la temperatura
 temp_min = min(np.nanmin(T_csC_1), np.nanmin(T_csC_2), 
@@ -300,7 +301,6 @@ temp_max = max(np.nanmax(T_csC_1), np.nanmax(T_csC_2),
               np.nanmax(T_cCA_0), np.nanmax(T_cCA_1), np.nanmax(T_cCA_2))
 norm = Normalize(vmin=temp_min, vmax=temp_max)
 
-fig, (a, b, c) = plt.subplots(nrows=3, constrained_layout=True, sharex=True, sharey=True, figsize=(10, 8))
 
 # Ajustar tiempos para que empiecen en 0
 time_csC_1 = time_csC_1 - time_csC_1[0]
@@ -311,34 +311,61 @@ time_cCT_2 = time_cCT_2 - time_cCT_2[0]
 time_cCA_0 = time_cCA_0 - time_cCA_0[0]
 time_cCA_1 = time_cCA_1 - time_cCA_1[0]
 time_cCA_2 = time_cCA_2 - time_cCA_2[0]
+#%% Filtrar los datos para que solo incluyan temperaturas entre -20 y 20 °C
 
-# Congelado sin campo (solo muestras 1 y 2 como en el análisis anterior)
-a.set_title('Congelado sin campo', loc='left')
+def filtrar_por_temperatura(tiempo, temperatura, tmin=-20, tmax=20):
+    mask = (temperatura >= tmin) & (temperatura <= tmax)
+    return tiempo[mask], temperatura[mask]
+
+# Congelado sin campo
+time_csC_1, T_csC_1 = filtrar_por_temperatura(time_csC_1, T_csC_1)
+time_csC_2, T_csC_2 = filtrar_por_temperatura(time_csC_2, T_csC_2)
+
+# Congelado con campo transversal
+time_cCT_0, T_cCT_0 = filtrar_por_temperatura(time_cCT_0, T_cCT_0)
+time_cCT_1, T_cCT_1 = filtrar_por_temperatura(time_cCT_1, T_cCT_1)
+time_cCT_2, T_cCT_2 = filtrar_por_temperatura(time_cCT_2, T_cCT_2)
+
+# Congelado con campo axial
+time_cCA_0, T_cCA_0 = filtrar_por_temperatura(time_cCA_0, T_cCA_0)
+time_cCA_1, T_cCA_1 = filtrar_por_temperatura(time_cCA_1, T_cCA_1)
+time_cCA_2, T_cCA_2 = filtrar_por_temperatura(time_cCA_2, T_cCA_2)
+
+#%% Plot Congelado sin campo (solo muestras 1 y 2 como en el análisis anterior)
+fig, (a, b, c) = plt.subplots(nrows=3, constrained_layout=True, sharex=True, sharey=True, figsize=(10, 8))
+a.set_title(' Congelado sin campo', loc='left',y=0.89)
 sc1 = a.scatter(time_csC_1/60, T_csC_1, c=T_csC_1, cmap=viridis, norm=norm, label='Muestra 1')
 sc2 = a.scatter(time_csC_2/60, T_csC_2, c=T_csC_2, cmap=viridis, norm=norm, label='Muestra 2')
 a.set_ylabel('Temperatura (°C)')
-a.grid()
 
 # Congelado con campo transversal
-b.set_title('Congelado con campo transversal', loc='left')
+b.set_title(' Congelado con campo transversal', loc='left', y=0.89)
 b.scatter(time_cCT_0/60, T_cCT_0, c=T_cCT_0, cmap=viridis, norm=norm, label='Muestra 0')
 b.scatter(time_cCT_1/60, T_cCT_1, c=T_cCT_1, cmap=viridis, norm=norm, label='Muestra 1')
 b.scatter(time_cCT_2/60, T_cCT_2, c=T_cCT_2, cmap=viridis, norm=norm, label='Muestra 2')
 b.set_ylabel('Temperatura (°C)')
-b.grid()
 
 # Congelado con campo axial
-c.set_title('Congelado con campo axial', loc='left')
+c.set_title(' Congelado con campo axial', loc='left', y=0.89)
 c.scatter(time_cCA_0/60, T_cCA_0, c=T_cCA_0, cmap=viridis, norm=norm, label='Muestra 0')
 c.scatter(time_cCA_1/60, T_cCA_1, c=T_cCA_1, cmap=viridis, norm=norm, label='Muestra 1')
 c.scatter(time_cCA_2/60, T_cCA_2, c=T_cCA_2, cmap=viridis, norm=norm, label='Muestra 2')
 c.set_ylabel('Temperatura (°C)')
 c.set_xlabel('Tiempo (minutos)')
-c.grid()
+
+for ax in (a, b, c):
+    ax.grid(which='major')
+    # Eje y: cada 5 grados
+    ax.yaxis.set_minor_locator(MultipleLocator(5))
+    # Eje x: cada 20 segundos (20/60 minutos)
+    ax.xaxis.set_minor_locator(MultipleLocator(20/60))
+    ax.grid(which='minor', linestyle=':', linewidth=0.7, alpha=0.6)
+    # Quitar los números de los ticks menores
+    ax.yaxis.set_minor_formatter(NullFormatter())
+    ax.xaxis.set_minor_formatter(NullFormatter())
 
 # Barra de color común
 cbar = fig.colorbar(sc1, ax=[a, b, c], orientation='vertical', label='Temperatura (°C)')
-
 
 # Ajustes globales
 plt.suptitle('Temperatura durante el descongelamiento', y=1.02)
