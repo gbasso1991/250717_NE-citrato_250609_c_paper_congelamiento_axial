@@ -287,6 +287,38 @@ ax.legend()
 plt.savefig('comparativa_promedio_taus.png',dpi=300)
 plt.show()
 
+
+#%% grafico para referato
+
+
+fig, (a, b, c) = plt.subplots(nrows=3, figsize=(10, 8), constrained_layout=True, sharex=True, sharey=True)
+
+a.set_title('  Frozen w/ no field applied', loc='left',y=0.89)
+a.plot(T_csC_2, tau_csC_2, '.-',c='C0')
+a.set_ylabel(r'$\tau$ (s)')
+
+
+b.set_title('  Frozen w/ transverse DC field applied', loc='left',y=0.89)
+b.plot(T_cCT_1, tau_cCT_1, '.-',c='C1')
+b.set_ylabel(r'$\tau$ (s)')
+
+
+c.set_title('  Frozen w/ axial DC field applied', loc='left',y=0.89)
+c.plot(T_cCA_0, tau_cCA_0, '.-',c='C2')
+c.set_ylabel(r'$\tau$ (s)')
+c.set_xlabel('Temperature (°C)')
+
+for i in (a,b,c):
+    i.grid()
+    #i.legend()
+
+plt.xlim(-21, 21)
+plt.savefig('comparativa_taus_referato.png', dpi=300)
+plt.show()
+
+
+
+
 #%% PLOT temperatura vs tiempo 
 from matplotlib.cm import viridis
 from matplotlib.colors import Normalize
