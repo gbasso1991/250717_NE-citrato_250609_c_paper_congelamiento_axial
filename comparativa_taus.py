@@ -345,3 +345,4 @@ plt.suptitle('Temperatura durante el descongelamiento', y=1.02)
 
 #plt.savefig('evolucion_temperatura_viridis_tiempo_ajustado.png', dpi=300, bbox_inches='tight')
 plt.show()
+# %%
